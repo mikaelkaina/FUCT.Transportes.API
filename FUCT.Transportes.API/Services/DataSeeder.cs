@@ -16,7 +16,7 @@ namespace FUCT.Transportes.API.Services
 
         public async Task SeedDataAsync()
         {
-            if (await _context.Transportes.AnyAsync()) return; // Evita duplicação de dados
+            if (await _context.Transportes.AnyAsync()) return; 
 
             var cargueiros = await _context.Cargueiros.ToListAsync();
             var minerios = await _context.Minerios.ToListAsync();
@@ -28,7 +28,6 @@ namespace FUCT.Transportes.API.Services
 
             while (dataInicio <= dataAtual)
             {
-                // Garante que a saída ocorra a partir das 08:00 AM GMT e evita domingos
                 if (dataInicio.DayOfWeek != DayOfWeek.Sunday)
                 {
                     var cargueiro = cargueiros[_random.Next(cargueiros.Count)];
@@ -37,14 +36,14 @@ namespace FUCT.Transportes.API.Services
                     transportes.Add(new Transporte
                     {
                         DataSaida = new DateTime(dataInicio.Year, dataInicio.Month, dataInicio.Day, 8, 0, 0),
-                        DataRetorno = dataInicio.AddDays(_random.Next(1, 7)), // Retorno aleatório entre 1 e 7 dias
+                        DataRetorno = dataInicio.AddDays(_random.Next(1, 7)),
                         CargueiroId = cargueiro.Id,
                         MinérioId = minerio.Id,
                         QuantidadeTransportada = cargueiro.Capacidade
                     });
                 }
 
-                // Avança para o próximo dia
+                
                 dataInicio = dataInicio.AddDays(1);
             }
 
